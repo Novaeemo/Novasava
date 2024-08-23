@@ -56,9 +56,17 @@
         .box a {
             color: #7289da;
             text-decoration: none;
+            transition: color 0.3s ease;
         }
-        .box a:hover {
+        .box a:hover,
+        .box a:focus {
+            color: white;
             text-decoration: underline;
+        }
+        .button:hover,
+        .button:focus {
+            background-color: #5b6eae;
+            box-shadow: 0 4px 8px rgba(255, 255, 255, 0.3);
         }
     </style>
 </head>
