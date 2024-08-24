@@ -37,7 +37,6 @@
             border-radius: 5px;
         }
         .button {
-            background-color: #7289da;
             color: white;
             padding: 10px 20px;
             border: none;
@@ -47,37 +46,36 @@
             display: inline-block;
             text-decoration: none;
             font-size: 16px;
-            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            transition: all 0.3s ease;
+            background-color: transparent;
+            border: 2px solid #00f;
+            box-shadow: 0 0 10px #00f;
         }
         .button:hover {
-            background-color: #5b6eae;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 0 20px #00f, 0 0 30px #00f, 0 0 40px #00f;
         }
         .box a {
             color: #7289da;
             text-decoration: none;
-            transition: color 0.3s ease;
         }
-        .box a:hover,
-        .box a:focus {
-            color: white;
+        .box a:hover {
             text-decoration: underline;
         }
-        .button:hover,
-        .button:focus {
-            background-color: #5b6eae;
-            box-shadow: 0 4px 8px rgba(255, 255, 255, 0.3);
-        }
     </style>
+    <script>
+        function changeToHeart(element) {
+            element.innerHTML = "♡";
+        }
+    </script>
 </head>
 <body>
     <div class="container">
         <h1>ᑎՕᐯᗩ鯖</h1>
         <h2>study and Chat Server</h2>
         <p>What you can learn: Linux/tool/others…</p>
-        <a href="https://discord.com/invite/CxyahCTDgq" class="button">discord Server</a>
+        <a href="https://discord.com/invite/CxyahCTDgq" class="button" onclick="changeToHeart(this)">discord Server</a>
         
-        <h2>hellper</h2>
+        <h2>employer</h2>
         <div class="box">ID:saka_uwu</div>
         <div class="box">ID:alpha_hack</div>
         <div class="box">ID:annyeonghaseyoohayo</div>
