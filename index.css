@@ -1,0 +1,54 @@
+body {
+    background-color: #000;
+    color: #fff;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+    text-align: center;
+}
+
+h1, h2 {
+    color: #0ff;
+    text-shadow: 0 0 10px #0ff, 0 0 20px #0ff;
+}
+
+#lang-switcher {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 0 10px #0ff, 0 0 20px #0ff;
+}
+
+#discord-id {
+    padding: 10px;
+    margin: 10px 0;
+}
+
+.discord-btn {
+    background-color: #5865F2;
+    padding: 10px 20px;
+    color: white;
+    text-decoration: none;
+    box-shadow: 0 0 10px #5865F2, 0 0 20px #5865F2;
+    animation: glow 1.5s infinite alternate;
+}
+
+.paypay-btn, .paypal-btn {
+    display: block;
+    margin: 10px 0;
+    padding: 10px;
+    background-color: #0ff;
+    color: black;
+    text-decoration: none;
+    box-shadow: 0 0 10px #0ff, 0 0 20px #0ff;
+}
+
+@keyframes glow {
+    from { box-shadow: 0 0 10px #5865F2; }
+    to { box-shadow: 0 0 20px #5865F2; }
+}
