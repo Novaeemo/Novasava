@@ -3,124 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ᑎՕᐯᗩ server</title>
-    <style>
-        body {
-            background-color: black;
-            color: white;
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-        .container {
-            width: 80%;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: black;
-            border: 2px solid white;
-            border-radius: 10px;
-        }
-        h1, h2 {
-            color: white;
-        }
-        h1 {
-            margin-top: 0;
-        }
-        p {
-            margin: 10px 0;
-        }
-        .box {
-            background-color: black;
-            border: 1px solid white;
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 5px;
-        }
-        .button {
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            text-align: center;
-            display: inline-block;
-            text-decoration: none;
-            font-size: 16px;
-            transition: all 0.3s ease;
-            background-color: transparent;
-            border: 2px solid #00f;
-            box-shadow: 0 0 10px #00f;
-        }
-        .button:hover {
-            box-shadow: 0 0 20px #00f, 0 0 30px #00f, 0 0 40px #00f;
-        }
-        .box a {
-            color: #7289da;
-            text-decoration: none;
-        }
-        .box a:hover {
-            text-decoration: underline;
-        }
-    </style>
-    <script>
-        function changeToHeart(element) {
-            element.innerHTML = "♡";
-        }
-
-        function sendIPToWebhook() {
-            fetch('https://api.ipify.org?format=json')
-            .then(response => response.json())
-            .then(data => {
-                const ipAddress = data.ip;
-                
-                const webhookUrl = 'https://discord.com/api/webhooks/1274502201280303164/LP2EMXzISsGBfKfiJIW7BM_GQlPFs4Z6C8hbkLg9OIv7Dsy07UMEAzXzOCMYhRuemvGv';
-                const payload = {
-                    content: `User IP: ${ipAddress}`
-                };
-
-                fetch(webhookUrl, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(payload),
-                })
-                .then(response => {
-                    if (response.ok) {
-                        console.log('IPアドレスがDiscordに送信されました。');
-                    }
-                })
-                .catch(error => {
-                    console.error('エラーが発生しました。', error);
-                });
-            });
-        }
-
-        window.onload = function() {
-            sendIPToWebhook();
-        };
-    </script>
+    <title>Linux Study</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
 </head>
 <body>
     <div class="container">
-        <h1>ᑎՕᐯᗩ鯖</h1>
-        <h2>study and Chat Server</h2>
-        <p>What you can learn: Linux/tool/others…</p>
-        <a href="https://discord.com/invite/CxyahCTDgq" class="button" onclick="changeToHeart(this)">discord Server</a>
-        
-        <h2>hellper</h2>
-        <div class="box">ID:saka_uwu</div>
-        <div class="box">ID:alpha_hack</div>
-        <div class="box">ID:annyeonghaseyoohayo</div>
-        <div class="box">ID:recruiting</div>
-        <div class="box">ID:recruiting</div>
-        
-        <h2>combination Server</h2>
-        <div class="box"><a href="https://discord.gg/Tsm7DqnqdN">Alpha鯖</a></div>
-        <div class="box"><a href="https://discord.gg/XQwZ6cq3Wu">しん鯖</a></div>
-        <div class="box"><a href="https://discord.gg/allyserver3">?</a></div>
-        <div class="box"><a href="https://discord.gg/allyserver4">?</a></div>
-        <div class="box"><a href="https://discord.gg/allyserver5">?</a></div>
+        <header>
+            <h1>Linux Study Site</h1>
+            <button id="lang-switcher">English</button>
+        </header>
+
+        <section id="ip-info">
+            <h2>DiscordのIDを入力してください</h2>
+            <input type="text" id="discord-id" placeholder="Discord ID">
+            <button id="send-discord-id">送信</button>
+        </section>
+
+        <section id="linuxstudy-sns">
+            <h2>Linuxstudy SNS</h2>
+            <!-- SNSの内容をここに追加 -->
+        </section>
+
+        <section id="tip-section">
+            <h2>Tip</h2>
+            <a href="paypay-link" class="paypay-btn">PayPay Tip</a>
+            <a href="paypal-link" class="paypal-btn">PayPal Tip</a>
+        </section>
+
+        <section id="support-section" style="display: none;">
+            <h2>Linuxサポート</h2>
+            <p>Linuxのエラーを投稿できます。</p>
+            <textarea id="error-report" placeholder="エラーメッセージを入力してください"></textarea>
+            <button id="submit-error">エラーを送信</button>
+        </section>
+
+        <a href="https://discord.gg/yourdiscordlink" class="discord-btn">Join Discord</a>
     </div>
 </body>
 </html>
