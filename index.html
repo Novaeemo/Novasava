@@ -7,34 +7,26 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header>
+  <header style="display: none;">
     <img src="assets/logo.png" alt="Logo" id="logo">
     <h1>Linux Tools & ISO Repository</h1>
   </header>
 
-  <section id="auth">
-    <h2>Discord ID Authentication</h2>
-    <form id="auth-form">
-        <input type="text" id="discord-id" placeholder="Enter your Discord ID" required>
-        <button type="submit" class="submit-button">Authenticate</button>
-    </form>
-  </section>
-
-  <nav>
+  <nav style="display: none;">
     <ul>
       <li><a href="#iso">ISO Files</a></li>
       <li><a href="#tools">Submit Tool</a></li>
     </ul>
   </nav>
 
-  <section id="iso">
+  <section id="iso" style="display: none;">
     <h2>Available ISO Files</h2>
     <ul id="iso-list">
-      
+      <!-- ISO files will be dynamically inserted here by script.js -->
     </ul>
   </section>
 
-  <section id="tools">
+  <section id="tools" style="display: none;">
     <h2>Submit a Tool</h2>
     <form id="tool-form">
       <input type="text" id="tool-name" placeholder="Tool Name" required>
@@ -43,6 +35,11 @@
       <button type="submit" class="submit-button">Submit Tool</button>
     </form>
   </section>
+
+  <form id="auth-form">
+    <input type="text" id="discord-id" placeholder="Discord ID" required>
+    <button type="submit" class="submit-button">Authenticate</button>
+  </form>
 
   <script src="script.js"></script>
 </body>
