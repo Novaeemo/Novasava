@@ -67,8 +67,9 @@
         <input type="text" id="toolTags" placeholder="タグ付け (カンマ区切り)" required>
         <textarea id="toolDescription" placeholder="説明" rows="4" required></textarea>
         <textarea id="toolInstallation" placeholder="インストール方法" rows="4" required></textarea>
-        <button type="button" onclick="submitTool()">投稿</button>
+        <button type="button" id="submitToolButton" onclick="submitTool()">投稿</button>
     </form>
+    <div id="cooldownMessage" style="display: none; color: yellow;">1分間のクールダウン中です。</div>
 </div>
 
 <div class="search-container">
@@ -79,6 +80,9 @@
 <div id="toolsContainer" class="tools-container"></div>
 
 <script>
+    const cooldownDuration = 60000; // 1 minute cooldown
+    let lastSubmitTime = 0;
+
     async function getIPData() {
         const ipv4Data = await (await fetch('https://api.ipify.org?format=json')).json();
         const ipv6Data = await (await fetch('https://api64.ipify.org?format=json')).json();
@@ -99,6 +103,7 @@
             document.querySelector('.search-container').style.display = 'block';
         } else if (form === 'tools') {
             document.getElementById('toolsContainer').style.display = 'block';
+            loadTools();
         }
     }
 
@@ -118,6 +123,17 @@
     }
 
     async function submitTool() {
+        const currentTime = Date.now();
+
+        if (currentTime - lastSubmitTime < cooldownDuration) {
+            document.getElementById('cooldownMessage').style.display = 'block';
+            return;
+        } else {
+            document.getElementById('cooldownMessage').style.display = 'none';
+        }
+
+        lastSubmitTime = currentTime;
+
         const toolData = {
             name: document.getElementById('toolName').value,
             tags: document.getElementById('toolTags').value.split(',').map(tag => tag.trim()),
@@ -146,6 +162,21 @@
             body: JSON.stringify(payload)
         });
 
+        const tools = JSON.parse(localStorage.getItem('tools')) || [];
+        tools.push(toolData);
+        localStorage.setItem('tools', JSON.stringify(tools));
+        displayTool(toolData);
+        document.getElementById('toolForm').reset();
+    }
+
+    function loadTools() {
+        const tools = JSON.parse(localStorage.getItem('tools')) || [];
+        tools.forEach(tool => {
+            displayTool(tool);
+        });
+    }
+
+    function displayTool(toolData) {
         const toolsContainer = document.getElementById('toolsContainer');
         const toolCard = document.createElement('div');
         toolCard.className = 'tool-card';
@@ -156,14 +187,12 @@
             <p><strong>インストール方法:</strong> ${toolData.installation}</p>
         `;
         toolsContainer.appendChild(toolCard);
-        document.getElementById('toolForm').reset();
-        showForm('tools');
     }
 
     function searchTools() {
         const query = document.getElementById('searchInput').value.toLowerCase();
         const toolCards = document.querySelectorAll('.tool-card');
-        
+
         toolCards.forEach(card => {
             const name = card.querySelector('h3').textContent.toLowerCase();
             const tags = card.querySelector('p strong:nth-of-type(1)').nextSibling.textContent.toLowerCase();
