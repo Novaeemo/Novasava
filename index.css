@@ -12,6 +12,10 @@ header {
   background-color: #111;
 }
 
+#logo {
+  width: 100px;
+}
+
 nav ul {
   list-style: none;
   text-align: center;
@@ -34,23 +38,34 @@ section {
   background-color: #222;
 }
 
-form input, form textarea {
-  width: 100%;
-  margin-bottom: 10px;
-  padding: 10px;
-  background-color: #333;
-  border: 1px solid #444;
-  color: #fff;
-}
-
-form button {
-  padding: 10px;
+button {
+  padding: 10px 20px;
   background-color: #00f;
   border: none;
   color: white;
   cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
 }
 
-form button:hover {
+button:hover {
   background-color: #0051ff;
+  transform: scale(1.05);
+}
+
+.iso-button {
+  display: block;
+  width: 200px;
+  margin: 10px auto;
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.iso-button:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
 }
