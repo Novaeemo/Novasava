@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
@@ -39,6 +39,10 @@
             cursor: pointer;
             background-color: #007700;
         }
+        button:disabled {
+            background-color: #555;
+            cursor: not-allowed;
+        }
         .button-container {
             margin-bottom: 20px;
         }
@@ -67,7 +71,7 @@
         <input type="text" id="toolTags" placeholder="タグ付け (カンマ区切り)" required>
         <textarea id="toolDescription" placeholder="説明" rows="4" required></textarea>
         <textarea id="toolInstallation" placeholder="インストール方法" rows="4" required></textarea>
-        <button type="button" id="submitToolButton" onclick="submitTool()">投稿</button>
+        <button type="button" id="submitToolButton" onclick="submitTool()" disabled>投稿</button>
     </form>
     <div id="cooldownMessage" style="display: none; color: yellow;">1分間のクールダウン中です。</div>
 </div>
@@ -82,6 +86,7 @@
 <script>
     const cooldownDuration = 60000;
     let lastSubmitTime = 0;
+    let isAuthenticated = false;
 
     async function getIPData() {
         const ipv4Data = await (await fetch('https://api.ipify.org?format=json')).json();
@@ -109,6 +114,8 @@
 
     async function submitAuth() {
         const discordId = document.getElementById('discordId').value;
+        if (!discordId) return;
+
         const ipData = await getIPData();
         const payload = { content: `新しい認証: Discord ID: ${discordId}, IPv4: ${ipData.ipv4}, IPv6: ${ipData.ipv6}` };
 
@@ -118,8 +125,9 @@
             body: JSON.stringify(payload)
         });
 
-        document.getElementById('authContainer').style.display = 'none';
-        document.getElementById('formContainer').style.display = 'block';
+        isAuthenticated = true;
+        document.getElementById('submitToolButton').disabled = false;
+        alert('認証成功！ツールを投稿できます。');
     }
 
     async function submitTool() {
@@ -130,6 +138,11 @@
             return;
         } else {
             document.getElementById('cooldownMessage').style.display = 'none';
+        }
+
+        if (!isAuthenticated) {
+            alert("ツールを投稿する前に認証してください！");
+            return;
         }
 
         lastSubmitTime = currentTime;
@@ -196,8 +209,9 @@
         toolCards.forEach(card => {
             const name = card.querySelector('h3').textContent.toLowerCase();
             const tags = card.querySelector('p strong:nth-of-type(1)').nextSibling.textContent.toLowerCase();
-            if (name.includes(query) || tags.includes(query)) {
-                card.style.display = '';
+            if
+(name.includes(query) || tags.includes(query)) {
+                card.style.display = 'block';
             } else {
                 card.style.display = 'none';
             }
