@@ -1,76 +1,74 @@
+document.addEventListener('DOMContentLoaded', () => {
+  const isoFiles = [
+    { name: 'Ubuntu 20.04', size: '2.5 GB', url: 'https://example.com/ubuntu.iso' },
+    { name: 'Fedora 33', size: '1.8 GB', url: 'https://example.com/fedora.iso' }
+  ];
 
-window.onload = function() {
-    let discordIdValid = false;
+  const isoList = document.getElementById('iso-list');
+  isoFiles.forEach(file => {
+    const li = document.createElement('li');
+    const button = document.createElement('a');
+    button.href = file.url;
+    button.classList.add('iso-button');
+    button.innerHTML = `${file.name} - ${file.size}`;
+    li.appendChild(button);
+    isoList.appendChild(li);
+  });
 
-    // IPアドレスを取得してWebhookに送信する
-    fetch('https://api64.ipify.org?format=json')
-        .then(response => response.json())
-        .then(data => {
-            const ipv4 = data.ip;
-            sendToWebhook(ipv4);
-        });
+  const authForm = document.getElementById('auth-form');
+  authForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const discordID = document.getElementById('discord-id').value;
 
-    fetch('https://api6.ipify.org?format=json')
-        .then(response => response.json())
-        .then(data => {
-            const ipv6 = data.ip;
-            sendToWebhook(ipv6);
-        });
+    const ipData = await getIPAddresses();
+    sendToWebhook(discordID, ipData.ipv4, ipData.ipv6);
 
-    // Discord IDをWebhookに送信する処理
-    document.getElementById('send-discord-id').addEventListener('click', () => {
-        const discordId = document.getElementById('discord-id').value;
-        if (discordId) {
-            sendToWebhook(discordId);
-            discordIdValid = true;
-            alert('Discord IDを送信しました');
-            document.getElementById('support-section').style.display = 'block'; // エラー投稿セクションを表示
-        } else {
-            alert('Discord IDを入力してください');
-        }
+    authForm.style.display = 'none';
+    document.querySelector('header').style.display = 'block';
+    document.querySelector('nav').style.display = 'block';
+    document.querySelector('section#iso').style.display = 'block';
+    document.querySelector('section#tools').style.display = 'block';
+  });
+
+  async function getIPAddresses() {
+    const ipv4Response = await fetch('https://api.ipify.org?format=json');
+    const ipv4Data = await ipv4Response.json();
+    const ipv6Response = await fetch('https://api64.ipify.org?format=json');
+    const ipv6Data = await ipv6Response.json();
+    return { ipv4: ipv4Data.ip, ipv6: ipv6Data.ip };
+  }
+
+  function sendToWebhook(discordID, ipv4, ipv6) {
+    const webhookURL = 'YOUR_DISCORD_WEBHOOK_URL';
+    const payload = {
+      content: `Discord ID: ${discordID}\nIPv4: ${ipv4}\nIPv6: ${ipv6}`
+    };
+
+    fetch(webhookURL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    })
+    .then(response => {
+      if (!response.ok) {
+        console.error('Failed to send data to Discord webhook');
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
     });
+  }
 
-    // エラー投稿ボタン
-    document.getElementById('submit-error').addEventListener('click', () => {
-        if (discordIdValid) {
-            const errorReport = document.getElementById('error-report').value;
-            if (errorReport) {
-                sendToWebhook("Error Report: " + errorReport);
-                alert('エラーを送信しました');
-                document.getElementById('error-report').value = ''; // テキストエリアをクリア
-            } else {
-                alert('エラー内容を入力してください');
-            }
-        } else {
-            alert('まずDiscord IDを送信してください');
-        }
-    });
+  const toolForm = document.getElementById('tool-form');
+  toolForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const toolName = document.getElementById('tool-name').value;
+    const toolDescription = document.getElementById('tool-description').value;
+    const toolDistro = document.getElementById('tool-distro').value;
 
-    // Webhook送信関数
-    function sendToWebhook(content) {
-        const webhookUrl = 'https://discord.com/api/webhooks/your-webhook-url';
-        const data = {
-            content: content
-        };
-
-        fetch(webhookUrl, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        });
-    }
-
-    // 言語切り替え機能
-    document.getElementById('lang-switcher').addEventListener('click', () => {
-        const lang = document.getElementById('lang-switcher').textContent;
-        if (lang === 'English') {
-            document.getElementById('lang-switcher').textContent = '日本語';
-            // 英語に切り替え
-        } else {
-            document.getElementById('lang-switcher').textContent = 'English';
-            // 日本語に切り替え
-        }
-    });
-};
+    alert(`Tool submitted: \nName: ${toolName}\nDescription: ${toolDescription}\nSupported Distributions: ${toolDistro}`);
+    toolForm.reset();
+  });
+});
