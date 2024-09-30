@@ -7,39 +7,42 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header style="display: none;">
-    <img src="assets/logo.png" alt="Logo" id="logo">
-    <h1>Linux Tools & ISO Repository</h1>
-  </header>
-
-  <nav style="display: none;">
-    <ul>
-      <li><a href="#iso">ISO Files</a></li>
-      <li><a href="#tools">Submit Tool</a></li>
-    </ul>
-  </nav>
-
-  <section id="iso" style="display: none;">
-    <h2>Available ISO Files</h2>
-    <ul id="iso-list">
-      
-    </ul>
-  </section>
-
-  <section id="tools" style="display: none;">
-    <h2>Submit a Tool</h2>
-    <form id="tool-form">
-      <input type="text" id="tool-name" placeholder="Tool Name" required>
-      <textarea id="tool-description" placeholder="Description" required></textarea>
-      <input type="text" id="tool-distro" placeholder="Supported Distributions" required>
-      <button type="submit" class="submit-button">Submit Tool</button>
+  <div id="layer2" class="layer">
+    <h2>Discord IDを入力してください</h2>
+    <form id="auth-form">
+      <input type="text" id="discord-id" placeholder="Discord ID" required>
+      <button type="submit">送信</button>
     </form>
-  </section>
+  </div>
 
-  <form id="auth-form">
-    <input type="text" id="discord-id" placeholder="Discord ID" required>
-    <button type="submit" class="submit-button">Authenticate</button>
-  </form>
+  <div id="layer1" class="layer" style="display: none;">
+    <header>
+      <img src="assets/logo.png" alt="Logo" id="logo">
+      <h1>Linux Tools & ISO Repository</h1>
+    </header>
+
+    <nav>
+      <ul>
+        <li><a href="#iso">ISO Files</a></li>
+        <li><a href="#tools">Submit Tool</a></li>
+      </ul>
+    </nav>
+
+    <section id="iso">
+      <h2>Available ISO Files</h2>
+      <ul id="iso-list"></ul>
+    </section>
+
+    <section id="tools">
+      <h2>Submit a Tool</h2>
+      <form id="tool-form">
+        <input type="text" id="tool-name" placeholder="Tool Name" required>
+        <textarea id="tool-description" placeholder="Description" required></textarea>
+        <input type="text" id="tool-distro" placeholder="Supported Distributions" required>
+        <button type="submit" class="submit-button">Submit Tool</button>
+      </form>
+    </section>
+  </div>
 
   <script src="script.js"></script>
 </body>
