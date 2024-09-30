@@ -1,44 +1,40 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Linux Study</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="script.js" defer></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Linux Tools and ISO Repository</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Linux Study Site</h1>
-            <button id="lang-switcher">English</button>
-        </header>
+  <header>
+    <h1>Linux Tools & ISO Repository</h1>
+  </header>
 
-        <section id="ip-info">
-            <h2>DiscordのIDを入力してください</h2>
-            <input type="text" id="discord-id" placeholder="Discord ID">
-            <button id="send-discord-id">送信</button>
-        </section>
+  <nav>
+    <ul>
+      <li><a href="#iso">ISO Files</a></li>
+      <li><a href="#tools">Submit Tool</a></li>
+    </ul>
+  </nav>
 
-        <section id="linuxstudy-sns">
-            <h2>Linuxstudy SNS</h2>
-            <!-- SNSの内容をここに追加 -->
-        </section>
+  <section id="iso">
+    <h2>Available ISO Files</h2>
+    <ul id="iso-list">
+      <!-- ISO files will be dynamically inserted here by script.js -->
+    </ul>
+  </section>
 
-        <section id="tip-section">
-            <h2>Tip</h2>
-            <a href="paypay-link" class="paypay-btn">PayPay Tip</a>
-            <a href="paypal-link" class="paypal-btn">PayPal Tip</a>
-        </section>
+  <section id="tools">
+    <h2>Submit a Tool</h2>
+    <form id="tool-form">
+      <input type="text" id="tool-name" placeholder="Tool Name" required>
+      <textarea id="tool-description" placeholder="Description" required></textarea>
+      <input type="text" id="tool-distro" placeholder="Supported Distributions" required>
+      <button type="submit">Submit</button>
+    </form>
+  </section>
 
-        <section id="support-section" style="display: none;">
-            <h2>Linuxサポート</h2>
-            <p>Linuxのエラーを投稿できます。</p>
-            <textarea id="error-report" placeholder="エラーメッセージを入力してください"></textarea>
-            <button id="submit-error">エラーを送信</button>
-        </section>
-
-        <a href="https://discord.gg/yourdiscordlink" class="discord-btn">Join Discord</a>
-    </div>
+  <script src="script.js"></script>
 </body>
 </html>
