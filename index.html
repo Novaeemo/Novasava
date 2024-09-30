@@ -13,39 +13,6 @@
             padding: 20px;
             overflow-x: hidden;
         }
-        .menu-btn {
-            font-size: 24px;
-            background: none;
-            color: #00ff00;
-            border: none;
-            cursor: pointer;
-            position: fixed;
-            top: 10px;
-            left: 10px;
-        }
-        .sidebar {
-            position: fixed;
-            top: 0;
-            left: -250px;
-            width: 250px;
-            height: 100%;
-            background-color: #1a1a1a;
-            border-right: 2px solid #00ff00;
-            transition: left 0.3s ease;
-            padding: 20px;
-        }
-        .sidebar.active {
-            left: 0;
-        }
-        .sidebar button {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            background-color: #0d0d0d;
-            color: #00ff00;
-            border: 1px solid #00ff00;
-            cursor: pointer;
-        }
         .form-container, .tools-container {
             display: none;
             border: 2px solid #00ff00;
@@ -60,7 +27,7 @@
             background-color: #0d0d0d;
             border-radius: 5px;
         }
-        input, button {
+        input, button, textarea {
             padding: 10px;
             margin: 5px 0;
             border: 1px solid #00ff00;
@@ -72,37 +39,44 @@
             cursor: pointer;
             background-color: #007700;
         }
+        .button-container {
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
 
-<button class="menu-btn" onclick="toggleSidebar()">Ξ</button>
-
-<div id="sidebar" class="sidebar">
-    <button onclick="showForm()">投稿フォーム</button>
-    <button onclick="showTools()">ツール</button>
+<div class="button-container">
+    <button onclick="showForm('auth')">認証</button>
+    <button onclick="showForm('tool')">投稿フォーム</button>
+    <button onclick="showForm('search')">検索フォーム</button>
+    <button onclick="showForm('tools')">ツール表示</button>
 </div>
 
-<div class="content">
-    <div id="authContainer" class="form-container">
-        <form id="authForm">
-            <input type="text" id="discordId" placeholder="Discord ID" required>
-            <button type="button" onclick="submitAuth()">認証</button>
-        </form>
-    </div>
-
-    <div id="formContainer" class="form-container">
-        <form id="toolForm">
-            <input type="text" id="toolName" placeholder="名前" required>
-            <input type="text" id="toolCategory" placeholder="カテゴリ" required>
-            <input type="text" id="toolDescription" placeholder="説明" required>
-            <input type="text" id="toolInstallation" placeholder="インストール方法" required>
-            <button type="button" onclick="submitTool()">投稿</button>
-        </form>
-    </div>
-
-    <div id="toolsContainer" class="tools-container"></div>
+<div id="authContainer" class="form-container">
+    <form id="authForm">
+        <input type="text" id="discordId" placeholder="Discord ID" required>
+        <button type="button" onclick="submitAuth()">認証</button>
+    </form>
 </div>
+
+<div id="formContainer" class="form-container">
+    <h2>ツールの投稿</h2>
+    <form id="toolForm">
+        <input type="text" id="toolName" placeholder="ツール名" required>
+        <input type="text" id="toolTags" placeholder="タグ付け (カンマ区切り)" required>
+        <textarea id="toolDescription" placeholder="説明" rows="4" required></textarea>
+        <textarea id="toolInstallation" placeholder="インストール方法" rows="4" required></textarea>
+        <button type="button" onclick="submitTool()">投稿</button>
+    </form>
+</div>
+
+<div class="search-container">
+    <input type="text" id="searchInput" placeholder="ツール名またはタグで検索">
+    <button type="button" onclick="searchTools()">検索</button>
+</div>
+
+<div id="toolsContainer" class="tools-container"></div>
 
 <script>
     async function getIPData() {
@@ -111,20 +85,21 @@
         return { ipv4: ipv4Data.ip, ipv6: ipv6Data.ip };
     }
 
-    function toggleSidebar() {
-        document.getElementById('sidebar').classList.toggle('active');
-    }
-
-    function showForm() {
-        document.getElementById('authContainer').style.display = 'none';
-        document.getElementById('formContainer').style.display = 'block';
-        document.getElementById('toolsContainer').style.display = 'none';
-    }
-
-    function showTools() {
+    function showForm(form) {
         document.getElementById('authContainer').style.display = 'none';
         document.getElementById('formContainer').style.display = 'none';
-        document.getElementById('toolsContainer').style.display = 'block';
+        document.getElementById('toolsContainer').style.display = 'none';
+        document.querySelector('.search-container').style.display = 'none';
+
+        if (form === 'auth') {
+            document.getElementById('authContainer').style.display = 'block';
+        } else if (form === 'tool') {
+            document.getElementById('formContainer').style.display = 'block';
+        } else if (form === 'search') {
+            document.querySelector('.search-container').style.display = 'block';
+        } else if (form === 'tools') {
+            document.getElementById('toolsContainer').style.display = 'block';
+        }
     }
 
     async function submitAuth() {
@@ -145,7 +120,7 @@
     async function submitTool() {
         const toolData = {
             name: document.getElementById('toolName').value,
-            category: document.getElementById('toolCategory').value,
+            tags: document.getElementById('toolTags').value.split(',').map(tag => tag.trim()),
             description: document.getElementById('toolDescription').value,
             installation: document.getElementById('toolInstallation').value
         };
@@ -158,7 +133,7 @@
                     title: toolData.name,
                     description: toolData.description,
                     fields: [
-                        { name: "カテゴリ", value: toolData.category },
+                        { name: "タグ", value: toolData.tags.join(', ') },
                         { name: "インストール方法", value: toolData.installation }
                     ]
                 }
@@ -176,13 +151,28 @@
         toolCard.className = 'tool-card';
         toolCard.innerHTML = `
             <h3>${toolData.name}</h3>
-            <p><strong>カテゴリ:</strong> ${toolData.category}</p>
+            <p><strong>タグ:</strong> ${toolData.tags.join(', ')}</p>
             <p><strong>説明:</strong> ${toolData.description}</p>
             <p><strong>インストール方法:</strong> ${toolData.installation}</p>
         `;
         toolsContainer.appendChild(toolCard);
         document.getElementById('toolForm').reset();
-        showTools();
+        showForm('tools');
+    }
+
+    function searchTools() {
+        const query = document.getElementById('searchInput').value.toLowerCase();
+        const toolCards = document.querySelectorAll('.tool-card');
+        
+        toolCards.forEach(card => {
+            const name = card.querySelector('h3').textContent.toLowerCase();
+            const tags = card.querySelector('p strong:nth-of-type(1)').nextSibling.textContent.toLowerCase();
+            if (name.includes(query) || tags.includes(query)) {
+                card.style.display = '';
+            } else {
+                card.style.display = 'none';
+            }
+        });
     }
 </script>
 
