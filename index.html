@@ -8,6 +8,7 @@
 </head>
 <body>
   <header>
+    <img src="assets/logo.png" alt="Logo" id="logo"> <!-- ロゴのプレースホルダー -->
     <h1>Linux Tools & ISO Repository</h1>
   </header>
 
@@ -21,7 +22,6 @@
   <section id="iso">
     <h2>Available ISO Files</h2>
     <ul id="iso-list">
-      <!-- ISO files will be dynamically inserted here by script.js -->
     </ul>
   </section>
 
@@ -31,7 +31,7 @@
       <input type="text" id="tool-name" placeholder="Tool Name" required>
       <textarea id="tool-description" placeholder="Description" required></textarea>
       <input type="text" id="tool-distro" placeholder="Supported Distributions" required>
-      <button type="submit">Submit</button>
+      <button type="submit" class="submit-button">Submit Tool</button>
     </form>
   </section>
 
