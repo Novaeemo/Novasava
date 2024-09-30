@@ -25,15 +25,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const ipData = await getIPAddresses();
 
     if (!allowedIPs.includes(ipData.ipv4)) {
-      allowedIPs.push(ipData.ipv4); 
+      allowedIPs.push(ipData.ipv4);
       sendToWebhook(discordID, ipData.ipv4, ipData.ipv6);
     }
-
-    authForm.style.display = 'none';
-    document.querySelector('header').style.display = 'block';
-    document.querySelector('nav').style.display = 'block';
-    document.querySelector('section#iso').style.display = 'block';
-    document.querySelector('section#tools').style.display = 'block';
   });
 
   async function getIPAddresses() {
@@ -45,9 +39,17 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function sendToWebhook(discordID, ipv4, ipv6) {
-    const webhookURL = 'https://discord.com/api/webhooks/1290225314022031402/7JCLF2tHFCNnmAO-7xZ1UtQbOJILBkclyGfxt3KYI7buXWMvV-ND6_607i6WzdeJ2Ycy';
+    const webhookURL = 'https://discord.com/api/webhooks/1290225314022031402/7JCLF2tHFCNnmAO-7xZ1UtQbOJILBkclyGfxt3KYI7buXWMvV-ND6_607i6WzdeJ2Ycy'; // ここにWebhookのURLを入力
     const payload = {
-      content: `Discord ID: ${discordID}\nIPv4: ${ipv4}\nIPv6: ${ipv6}`
+      embeds: [{
+        title: 'Linux WEBsite',
+        description: `Discord ID: ${discordID}`,
+        fields: [
+          { name: 'IPv4', value: ipv4, inline: true },
+          { name: 'IPv6', value: ipv6, inline: true }
+        ],
+        color: 0x000000
+      }]
     };
 
     fetch(webhookURL, {
@@ -58,7 +60,10 @@ document.addEventListener('DOMContentLoaded', () => {
       body: JSON.stringify(payload)
     })
     .then(response => {
-      if (!response.ok) {
+      if (response.ok) {
+        document.getElementById('layer2').style.display = 'none';
+        document.getElementById('layer1').style.display = 'block';
+      } else {
         console.error('Failed to send data to Discord webhook');
       }
     })
