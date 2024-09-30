@@ -8,12 +8,16 @@
         body {
             font-family: 'Courier New', Courier, monospace;
             background-color: #000;
-            color: #fff;
+            color: #00ff00;
             margin: 0;
             padding: 20px;
         }
         .layer {
             display: none;
+            border: 2px solid #00ff00;
+            padding: 20px;
+            border-radius: 5px;
+            background-color: #1a1a1a;
         }
         .active {
             display: block;
@@ -22,15 +26,28 @@
             padding: 10px;
             margin: 5px 0;
             border: 1px solid #00ff00;
-            background-color: #1a1a1a;
+            background-color: #0d0d0d;
             color: #00ff00;
+            border-radius: 3px;
+            transition: border-color 0.3s;
+        }
+        input:focus, button:focus {
+            border-color: #009900;
+            outline: none;
         }
         button {
             cursor: pointer;
+            background-color: #007700;
+            color: #fff;
+            transition: background-color 0.3s;
         }
         button:hover {
             background-color: #00ff00;
             color: #000;
+        }
+        h2 {
+            border-bottom: 2px solid #00ff00;
+            padding-bottom: 10px;
         }
     </style>
 </head>
