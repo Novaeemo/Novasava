@@ -1,54 +1,56 @@
 body {
-    background-color: #000;
-    color: #fff;
-    font-family: Arial, sans-serif;
+  font-family: Arial, sans-serif;
+  background-color: #000;
+  color: #fff;
+  margin: 0;
+  padding: 0;
 }
 
-.container {
-    width: 80%;
-    margin: 0 auto;
-    text-align: center;
+header {
+  text-align: center;
+  padding: 20px;
+  background-color: #111;
 }
 
-h1, h2 {
-    color: #0ff;
-    text-shadow: 0 0 10px #0ff, 0 0 20px #0ff;
+nav ul {
+  list-style: none;
+  text-align: center;
+  padding: 0;
 }
 
-#lang-switcher {
-    background-color: #333;
-    color: #fff;
-    padding: 10px;
-    cursor: pointer;
-    border: none;
-    box-shadow: 0 0 10px #0ff, 0 0 20px #0ff;
+nav ul li {
+  display: inline;
+  margin: 0 15px;
 }
 
-#discord-id {
-    padding: 10px;
-    margin: 10px 0;
+nav ul li a {
+  color: #00f;
+  text-decoration: none;
 }
 
-.discord-btn {
-    background-color: #5865F2;
-    padding: 10px 20px;
-    color: white;
-    text-decoration: none;
-    box-shadow: 0 0 10px #5865F2, 0 0 20px #5865F2;
-    animation: glow 1.5s infinite alternate;
+section {
+  margin: 20px;
+  padding: 20px;
+  background-color: #222;
 }
 
-.paypay-btn, .paypal-btn {
-    display: block;
-    margin: 10px 0;
-    padding: 10px;
-    background-color: #0ff;
-    color: black;
-    text-decoration: none;
-    box-shadow: 0 0 10px #0ff, 0 0 20px #0ff;
+form input, form textarea {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 10px;
+  background-color: #333;
+  border: 1px solid #444;
+  color: #fff;
 }
 
-@keyframes glow {
-    from { box-shadow: 0 0 10px #5865F2; }
-    to { box-shadow: 0 0 20px #5865F2; }
+form button {
+  padding: 10px;
+  background-color: #00f;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+form button:hover {
+  background-color: #0051ff;
 }
