@@ -8,9 +8,17 @@
 </head>
 <body>
   <header>
-    <img src="assets/logo.png" alt="Logo" id="logo"> <!-- ロゴのプレースホルダー -->
+    <img src="assets/logo.png" alt="Logo" id="logo">
     <h1>Linux Tools & ISO Repository</h1>
   </header>
+
+  <section id="auth">
+    <h2>Discord ID Authentication</h2>
+    <form id="auth-form">
+        <input type="text" id="discord-id" placeholder="Enter your Discord ID" required>
+        <button type="submit" class="submit-button">Authenticate</button>
+    </form>
+  </section>
 
   <nav>
     <ul>
@@ -22,6 +30,7 @@
   <section id="iso">
     <h2>Available ISO Files</h2>
     <ul id="iso-list">
+      
     </ul>
   </section>
 
