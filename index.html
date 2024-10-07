@@ -59,12 +59,16 @@
         .ip-list table {
             width: 100%;
             border-collapse: collapse;
+            table-layout: fixed;
         }
 
         .ip-list th, .ip-list td {
             padding: 10px;
             text-align: center;
             border: 1px solid #533483;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
         .ip-list th {
