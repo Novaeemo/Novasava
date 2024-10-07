@@ -48,6 +48,7 @@
         }
 
         .ip-list {
+            display: none;
             margin: 20px auto;
             width: 80%;
             background-color: #0f3460;
@@ -87,8 +88,22 @@
             margin-bottom: 10px;
         }
 
+        .welcome {
+            text-align: center;
+            margin: 20px auto;
+            width: 80%;
+            background-color: #0f3460;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(83, 52, 131, 0.5);
+        }
+
+        #social-links {
+            margin-top: 10px;
+        }
+
         @media screen and (max-width: 768px) {
-            .search-bar, .ip-list {
+            .search-bar, .ip-list, .welcome {
                 width: 95%;
             }
         }
@@ -98,22 +113,37 @@
     <header>
         <h1 id="title">IP List</h1>
         <button id="lang-toggle" class="cyberpunk-btn">日本語</button>
-        <br>
-        <input type="text" id="search-bar" class="search-bar" placeholder="Search by Username, IPv4, IPv6, HWID">
     </header>
 
-    <div class="ip-list">
+    <div class="welcome" id="welcome">
+        <p>このウェブサイトはIP情報を提供します。公式SNSとウェブサイトのリンクをご覧ください。</p>
+        <div id="social-links">
+            <a href="https://twitter.com/yourhandle" class="cyberpunk-btn">Twitter</a>
+            <a href="https://discord.gg/yourserver" class="cyberpunk-btn">Discord Server</a>
+            <a href="https://yourwebsite.com" class="cyberpunk-btn">Website</a>
+        </div>
+        <button id="agree-btn" class="cyberpunk-btn">同意する</button>
+    </div>
+
+    <div class="ip-list" id="ip-list">
         <div id="ip-count">Total IPs: 3</div>
+        <input type="text" id="search-bar" class="search-bar" placeholder="Search by Username, IPv4, IPv6, HWID">
         <table id="ip-table">
             <thead>
                 <tr>
-                    <th>jpjpqp8</th>
-                    <th>60.134.239.207</th>
-                    <th>2400:2413:8c81:d000:ece2:ef3a:493:aa74</th>
-                    <th>a23eda7d-5079-4844-8211-b70be796ca21</th>
+                    <th>Username</th>
+                    <th>IPv4</th>
+                    <th>IPv6</th>
+                    <th>HWID</th>
                 </tr>
             </thead>
             <tbody>
+                <tr>
+                    <td>jpjpqp8</td>
+                    <td>60.134.239.207</td>
+                    <td>2400:2413:8c81:d000:ece2:ef3a:493:aa74</td>
+                    <td>a23eda7d-5079-4844-8211-b70be796ca21</td>
+                </tr>
                 <tr>
                     <td>tkg336</td>
                     <td>14.9.132.34</td>
@@ -142,6 +172,9 @@
         const searchBar = document.getElementById('search-bar');
         const ipTable = document.getElementById('ip-table').getElementsByTagName('tbody')[0];
         const ipCount = document.getElementById('ip-count');
+        const welcome = document.getElementById('welcome');
+        const ipList = document.getElementById('ip-list');
+        const agreeBtn = document.getElementById('agree-btn');
         
         let currentLang = 'en';
         languageToggle.addEventListener('click', () => {
@@ -156,6 +189,11 @@
                 languageToggle.textContent = 'English';
                 currentLang = 'en';
             }
+        });
+
+        agreeBtn.addEventListener('click', () => {
+            welcome.style.display = 'none';
+            ipList.style.display = 'block';
         });
 
         searchBar.addEventListener('keyup', () => {
@@ -174,6 +212,7 @@
                     rows[i].style.display = 'none';
                 }
             }
+            updateIPCount(); // 表示されているIPの数を更新
         });
 
         const updateIPCount = () => {
@@ -184,10 +223,8 @@
                     visibleRows++;
                 }
             }
-            ipCount.textContent = `Total IPs: ${visibleRows}`;
+            ipCount.textContent = 'Total IPs: ' + visibleRows;
         };
-
-        searchBar.addEventListener('keyup', updateIPCount);
     </script>
 </body>
 </html>
