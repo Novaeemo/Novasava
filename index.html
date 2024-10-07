@@ -60,15 +60,14 @@
             width: 100%;
             border-collapse: collapse;
             table-layout: fixed;
+            word-wrap: break-word;
         }
 
         .ip-list th, .ip-list td {
             padding: 10px;
             text-align: center;
             border: 1px solid #533483;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
+            word-break: break-all;
         }
 
         .ip-list th {
@@ -86,6 +85,12 @@
 
         #ip-count {
             margin-bottom: 10px;
+        }
+
+        @media screen and (max-width: 768px) {
+            .search-bar, .ip-list {
+                width: 95%;
+            }
         }
     </style>
 </head>
@@ -146,7 +151,7 @@
                 languageToggle.textContent = '日本語';
                 currentLang = 'jp';
             } else {
-                title.textContent = 'Cyberpunk IP List';
+                title.textContent = 'IP List';
                 searchBar.placeholder = 'Search by Username, IPv4, IPv6, HWID';
                 languageToggle.textContent = 'English';
                 currentLang = 'en';
