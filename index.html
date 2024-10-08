@@ -19,7 +19,7 @@
         }
 
         .cyberpunk-btn {
-            background-color: #1e90ff;
+            background-color: #533483;
             border: none;
             color: white;
             padding: 10px 20px;
@@ -29,12 +29,13 @@
             font-size: 16px;
             margin: 20px 10px;
             cursor: pointer;
-            box-shadow: 0 0 10px rgba(30, 144, 255, 0.8), 0 0 20px rgba(30, 144, 255, 0.8);
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(83, 52, 131, 0.8), 0 0 20px rgba(83, 52, 131, 0.8);
             transition: box-shadow 0.3s ease;
         }
 
         .cyberpunk-btn:hover {
-            box-shadow: 0 0 20px rgba(30, 144, 255, 1), 0 0 30px rgba(30, 144, 255, 1);
+            box-shadow: 0 0 20px rgba(83, 52, 131, 1), 0 0 30px rgba(83, 52, 131, 1);
         }
 
         .search-bar {
@@ -45,6 +46,7 @@
             background-color: #0f3460;
             border: 1px solid #533483;
             color: #fff;
+            border-radius: 8px;
         }
 
         .ip-list {
@@ -76,12 +78,13 @@
         }
 
         #lang-toggle {
-            background-color: #0f3460;
+            background-color: #533483;
             color: white;
             border: none;
             padding: 10px;
             cursor: pointer;
-            box-shadow: 0 0 10px rgba(15, 52, 96, 0.8);
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(83, 52, 131, 0.8);
         }
 
         #ip-count {
@@ -116,7 +119,7 @@
     </header>
 
     <div class="welcome" id="welcome">
-        <p>This website provides IP information, please see our official social media and Discord server links.</p>
+        <p id="welcome-text">This website provides IP information, please see our official social media and Discord server links.</p>
         <div id="social-links">
             <a href="https://twitter.com/yourhandle" class="cyberpunk-btn">Twitter</a>
             <a href="https://discord.gg/fdGjzHAYHy" class="cyberpunk-btn">Discord Server</a>
@@ -246,18 +249,23 @@
         const welcome = document.getElementById('welcome');
         const ipList = document.getElementById('ip-list');
         const agreeBtn = document.getElementById('agree-btn');
-        
+        const welcomeText = document.getElementById('welcome-text');
+
         let currentLang = 'en';
         languageToggle.addEventListener('click', () => {
             if (currentLang === 'en') {
                 title.textContent = 'IPリスト';
                 searchBar.placeholder = 'ユーザー名、IPv4、IPv6、HWIDで検索';
-                languageToggle.textContent = '日本語';
+                languageToggle.textContent = 'English';
+                welcomeText.textContent = 'このウェブサイトではIP情報を提供しています。公式SNSやDiscordサーバーのリンクをご覧ください。';
+                agreeBtn.textContent = 'Agree';
                 currentLang = 'jp';
             } else {
                 title.textContent = 'IP List';
                 searchBar.placeholder = 'Search by Username, IPv4, IPv6, HWID';
-                languageToggle.textContent = 'English';
+                languageToggle.textContent = '日本語';
+                welcomeText.textContent = 'This website provides IP information, please see our official social media and Discord server links.';
+                agreeBtn.textContent = '同意する';
                 currentLang = 'en';
             }
         });
